@@ -1,0 +1,325 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+:root {
+  --cf-bg: #f8fafc; /* Light background */
+  --cf-surface: #f1f5f9;
+  --cf-surface-high: #e2e8f0;
+  --cf-surface-lowest: #ffffff;
+  
+  --cf-primary: #0f766e; /* Emerald darker */
+  --cf-secondary: #1d4ed8; /* Blue darker */
+  --cf-tertiary: #0f766e; /* Teal darker */
+  --cf-on-surface: #0f172a; /* Dark text */
+  --cf-on-muted: #64748b; /* Muted text */
+  
+  --cf-error: #dc2626; /* Error darker */
+  --cf-outline: #94a3b8; /* Outline lighter */
+  
+  --cf-gradient: linear-gradient(135deg, #0f766e 0%, #1d4ed8 100%);
+  --cf-gradient-secondary: linear-gradient(135deg, #1d4ed8 0%, #0f766e 100%);
+  
+  --glass-bg: rgba(248, 250, 252, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-blur: 24px;
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --cf-bg: #030712; /* Deep Slate/Charcoal */
+  --cf-surface: #111827;
+  --cf-surface-high: #1f2937;
+  --cf-surface-lowest: #020617;
+  
+  --cf-primary: #10b981; /* Precise Emerald */
+  --cf-secondary: #3b82f6; /* Azure Blue */
+  --cf-tertiary: #2dd4bf; /* Teal/Aqua */
+  --cf-on-surface: #f8fafc;
+  --cf-on-muted: #94a3b8;
+  
+  --cf-error: #ef4444;
+  --cf-outline: #374151;
+  
+  --cf-gradient: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+  --cf-gradient-secondary: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+  
+  --glass-bg: rgba(17, 24, 39, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 24px;
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent text size adjustment on iOS landscape */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--cf-bg);
+    color: var(--cf-on-surface);
+    min-height: 100vh;
+    min-height: 100dvh; /* Use dynamic viewport height for mobile */
+    position: relative;
+    font-variant-numeric: tabular-nums;
+    overflow-x: hidden;
+    /* Smooth scrolling on touch */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Vibrant Mesh Gradient Background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 50% 80%, rgba(45, 212, 191, 0.08) 0%, transparent 50%);
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(100px);
+  }
+}
+
+
+/* ============================
+   Custom scrollbar (cyber-finance)
+   ============================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0e14;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #fbbf24;
+}
+
+/* Hide scrollbar on mobile but keep scrolling */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+  }
+  /* Firefox */
+  * {
+    scrollbar-width: none;
+  }
+}
+
+/* ============================
+   Utility Animations
+   ============================ */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* The Pulse — live data indicator */
+.pulse-live {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #8ff5ff;
+}
+
+.pulse-live::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #8ff5ff;
+  animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(2.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* ============================
+   Ghost Borders (accessibility fallback)
+   ============================ */
+.ghost-border {
+  border: 1px solid rgba(68, 72, 79, 0.15);
+}
+
+/* ============================
+   Glassmorphism utility
+   ============================ */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+
+/* ============================
+   Typography utilities — Responsive
+   ============================ */
+.font-display {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+.text-display-lg {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.text-display-md {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.text-label-sm {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.text-label-md {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ============================
+   Input: Bottom-Line style
+   ============================ */
+.input-bottomline {
+  background: #000000;
+  border: none;
+  border-bottom: 2px solid #20262f;
+  border-radius: 0;
+  padding: 0.75rem 0.5rem;
+  color: #f1f3fc;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  width: 100%;
+  /* Ensure accessible minimum tap target on mobile */
+  min-height: 44px;
+}
+
+.input-bottomline::placeholder {
+  color: #44484f;
+}
+
+.input-bottomline:focus {
+  border-bottom-color: #fbbf24;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.1);
+}
+
+/* ============================
+   Button styles — Responsive
+   ============================ */
+.btn-primary {
+  background: var(--cf-gradient);
+  color: var(--cf-bg);
+  font-weight: 700;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  /* Minimum touch target */
+  min-height: 44px;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* Disable hover transforms on touch devices to prevent sticky hover */
+@media (hover: none) {
+  .btn-primary:hover {
+    transform: none;
+  }
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--cf-primary);
+  font-weight: 600;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 44px;
+}
+
+.btn-ghost:hover {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* ============================
+   Responsive card border-radius
+   ============================ */
+@media (max-width: 640px) {
+  .glass {
+    border-radius: 1.25rem !important;
+  }
+}
+
+@layer utilities {
+  .shadow-glass {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+  .bg-fintech-darkCard {
+    background-color: rgba(15, 23, 42, 0.8);
+  }
+}
