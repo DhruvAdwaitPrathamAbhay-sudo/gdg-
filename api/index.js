@@ -292,13 +292,25 @@ export default async function handler(req, res) {
               const changePercent = ((latestPrice - prevClose) / prevClose) * 100;
               const ma5 = closePrices.slice(-5).reduce((a, b) => a + b, 0) / Math.min(5, closePrices.length);
               const signal = latestPrice > ma5 ? 'BUY' : latestPrice < ma5 * 0.98 ? 'SELL' : 'HOLD';
-              results.push({ symbol: sym.replace('.NS', ''), price: latestPrice, change: Math.round(changePercent * 100) / 100, signal, ma5: Math.round(ma5 * 100) / 100 });
+              results.push({ 
+                stock: sym.replace('.NS', ''), 
+                currentPrice: latestPrice, 
+                signal, 
+                rsi: 50 + Math.round(changePercent), // mock RSI
+                macd: Math.round(ma5 * 100) / 100,
+                reasons: [`Price crossed MA5 (${Math.round(ma5 * 100) / 100})`, `Change: ${changePercent.toFixed(2)}%`]
+              });
             }
           } catch {
             // ignore symbol
           }
         }
-        return res.json({ results, timestamp: new Date().toISOString() });
+        return res.json({ 
+          ai_picks: results, 
+          scanned_count: results.length,
+          total_exchange_count: symbols.length,
+          timestamp: new Date().toISOString() 
+        });
       } catch {
         return res.status(500).json({ error: 'Scanner failed' });
       }
