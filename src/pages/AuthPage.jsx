@@ -25,7 +25,7 @@ const AuthPage = () => {
             } else {
                 await signup(email, password);
             }
-            navigate('/');
+            navigate('/dashboard');
         } catch (err) {
             console.error("Auth error:", err);
             setError((err?.message || 'Authentication failed').trim());

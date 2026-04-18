@@ -13,7 +13,6 @@ dist-ssr/
 .env.test.local
 .env.production.local
 server/.env
-firebase-service-account.json
 
 # Logs
 logs/

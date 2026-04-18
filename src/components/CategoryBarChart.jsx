@@ -19,7 +19,7 @@ const CategoryBarChart = ({ categoryTotals }) => {
             return (
                 <div className="glass rounded p-3 shadow-glow-secondary text-cf-on-surface">
                     <p className="font-display font-bold text-sm">{payload[0].payload.name}</p>
-                    <p className="text-cf-secondary" style={{ fontVariantNumeric: 'tabular-nums' }}>Outflow: <span className="font-bold">${payload[0].value.toFixed(2)}</span></p>
+                    <p className="text-cf-secondary" style={{ fontVariantNumeric: 'tabular-nums' }}>Outflow: <span className="font-bold">₹{payload[0].value.toFixed(2)}</span></p>
                 </div>
             );
         }
@@ -32,8 +32,8 @@ const CategoryBarChart = ({ categoryTotals }) => {
                 <span className="w-2 h-6 bg-cf-secondary rounded-full inline-block shadow-glow-secondary"></span>
                 Cash-Burn by Sector
             </h3>
-            <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
+            <div className="h-64 min-h-[250px]">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                     <BarChart data={data} layout="vertical" margin={{ top: 0, right: 30, left: 10, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="rgba(68,72,79,0.15)" horizontal={true} vertical={false} />
                         <XAxis type="number" stroke="#44484f" tick={{fill: '#8a90a0', fontSize: 11}} axisLine={false} tickLine={false} />

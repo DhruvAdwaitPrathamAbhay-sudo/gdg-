@@ -15,7 +15,7 @@ const ProjectionChart = ({ netSavings }) => {
     if (netSavings <= 0) {
         return (
             <div className="h-64 flex items-center justify-center text-cf-on-muted bg-cf-surface-high rounded p-6">
-                <p>Increase net savings above $0 to view your 12-month accumulation projection.</p>
+                <p>Increase net savings above ₹0 to view your 12-month accumulation projection.</p>
             </div>
         );
     }
@@ -25,7 +25,7 @@ const ProjectionChart = ({ netSavings }) => {
             return (
                 <div className="glass rounded p-3 shadow-glow-primary text-cf-on-surface">
                     <p className="font-display font-bold text-sm">{label}</p>
-                    <p className="text-cf-primary" style={{ fontVariantNumeric: 'tabular-nums' }}>Est. Cash: <span className="font-bold">${payload[0].value.toLocaleString()}</span></p>
+                    <p className="text-cf-primary" style={{ fontVariantNumeric: 'tabular-nums' }}>Est. Cash: <span className="font-bold">₹{payload[0].value.toLocaleString()}</span></p>
                 </div>
             );
         }
@@ -38,8 +38,8 @@ const ProjectionChart = ({ netSavings }) => {
                 <span className="w-2 h-6 bg-cf-primary rounded-full inline-block shadow-glow-primary"></span>
                 12-Month Liquidity Projection
             </h3>
-            <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
+            <div className="h-64 min-h-[250px]">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                     <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                         <defs>
                             <linearGradient id="colorProjected" x1="0" y1="0" x2="0" y2="1">

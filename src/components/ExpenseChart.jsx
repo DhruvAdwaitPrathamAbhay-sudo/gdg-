@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 const ExpenseChart = ({ expenses, onCategoryClick = () => {} }) => {
@@ -18,6 +18,13 @@ const ExpenseChart = ({ expenses, onCategoryClick = () => {} }) => {
     const COLORS = ['#ff9800', '#ff5722', '#ff7043', '#e64a19', '#ffcc80', '#fb8c00', '#44484f'];
 
 
+    // Delay rendering to ensure the container has settled its layout dimensions
+    const [ready, setReady] = useState(false);
+    useEffect(() => {
+        const timer = setTimeout(() => setReady(true), 100);
+        return () => clearTimeout(timer);
+    }, []);
+
     if (!expenses || expenses.length === 0) {
         return (
             <div className="h-64 flex items-center justify-center text-cf-on-muted text-sm">
@@ -26,13 +33,17 @@ const ExpenseChart = ({ expenses, onCategoryClick = () => {} }) => {
         );
     }
 
+    if (!ready) {
+        return <div className="h-72 w-full min-h-[200px]" />;
+    }
+
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
                 <div className="glass rounded-2xl p-4 shadow-glass border border-white/10 backdrop-blur-xl">
                     <p className="font-display font-semibold text-cf-on-surface text-sm">{payload[0].name}</p>
                     <p className="text-cf-primary font-bold text-lg" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                        ${payload[0].value.toFixed(2)}
+                        ₹{payload[0].value.toFixed(2)}
                     </p>
                 </div>
             );
@@ -41,8 +52,8 @@ const ExpenseChart = ({ expenses, onCategoryClick = () => {} }) => {
     };
 
     return (
-        <div className="h-72 w-full">
-            <ResponsiveContainer width="100%" height="100%">
+        <div className="h-72 w-full min-h-[200px]">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                 <PieChart>
                     <Pie
                         data={categoryData}

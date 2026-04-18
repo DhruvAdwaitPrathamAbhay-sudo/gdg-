@@ -1,13 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Wallet, PieChart, TrendingUp, Settings, Brain, X } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Wallet, PieChart, TrendingUp, Settings, Brain, X, LogOut, BarChart3 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 const Sidebar = ({ closeSidebar = () => {} }) => {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
     const navItems = [
         { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> },
         { name: 'Expenses', path: '/expenses', icon: <Wallet size={20} /> },
         { name: 'Budget', path: '/budget', icon: <PieChart size={20} /> },
+        { name: 'Analysis', path: '/analysis', icon: <BarChart3 size={20} /> },
         { name: 'Investments', path: '/investments', icon: <TrendingUp size={20} /> },
         { name: 'AI Insights', path: '/ai-insights', icon: <Brain size={20} /> },
         { name: 'Settings', path: '/settings', icon: <Settings size={20} /> },
@@ -54,7 +58,7 @@ const Sidebar = ({ closeSidebar = () => {} }) => {
                 ))}
             </nav>
 
-            <div className="p-4 sm:p-6 mt-auto">
+            <div className="p-4 sm:p-6 mt-auto space-y-3">
                 <div className="glass-light p-3 sm:p-4 rounded-xl sm:rounded-2xl flex items-center gap-3">
                     <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-cf-primary/10 flex items-center justify-center text-cf-primary">
                         <Brain size={18} />
@@ -64,6 +68,13 @@ const Sidebar = ({ closeSidebar = () => {} }) => {
                         <p className="text-xs text-cf-on-surface font-bold">System Online</p>
                     </div>
                 </div>
+                <button 
+                    onClick={async () => { await logout(); navigate('/auth'); closeSidebar(); }}
+                    className="w-full flex items-center gap-3 px-4 sm:px-5 py-3 rounded-xl sm:rounded-2xl text-cf-on-muted hover:bg-cf-error/10 hover:text-cf-error transition-all duration-300 border border-transparent hover:border-cf-error/20 min-h-[44px] text-sm font-medium"
+                >
+                    <LogOut size={18} />
+                    <span>Logout</span>
+                </button>
             </div>
         </motion.aside>
 

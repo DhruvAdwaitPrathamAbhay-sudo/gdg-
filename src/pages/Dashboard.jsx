@@ -57,7 +57,7 @@ const Dashboard = () => {
     
     // New Expense Form State
     const [newExpense, setNewExpense] = useState({
-        description: '',
+        name: '',
         amount: '',
         category: 'Food',
         date: new Date().toISOString().split('T')[0]
@@ -101,14 +101,14 @@ const Dashboard = () => {
 
     const handleAddExpense = (e) => {
         e.preventDefault();
-        if (!newExpense.description || !newExpense.amount) return;
+        if (!newExpense.name || !newExpense.amount) return;
         addExpense({
             ...newExpense,
             amount: Number(newExpense.amount)
         });
         setIsAddModalOpen(false);
         setNewExpense({
-            description: '',
+            name: '',
             amount: '',
             category: 'Food',
             date: new Date().toISOString().split('T')[0]
@@ -127,7 +127,7 @@ const Dashboard = () => {
     };
 
     const filteredExpenses = useMemo(() => {
-        const sorted = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+        const sorted = [...expenses].sort((a, b) => new Date(b.created_at || b.date || 0) - new Date(a.created_at || a.date || 0));
         if (selectedCategory) {
             return sorted.filter(e => e.category === selectedCategory);
         }
@@ -358,9 +358,9 @@ const Dashboard = () => {
                                                             <Filter size={14} />
                                                         </div>
                                                         <div className="truncate min-w-0">
-                                                            <p className="text-xs sm:text-sm font-bold text-cf-on-surface truncate">{tx.description}</p>
+                                                            <p className="text-xs sm:text-sm font-bold text-cf-on-surface truncate">{tx.name}</p>
                                                             <div className="flex items-center gap-2 mt-0.5 sm:mt-1">
-                                                                <span className="text-[10px] text-cf-on-muted font-medium">{tx.date}</span>
+                                                                <span className="text-[10px] text-cf-on-muted font-medium">{tx.created_at ? new Date(tx.created_at).toLocaleDateString() : tx.date || ''}</span>
                                                                 <span className="w-1 h-1 rounded-full bg-white/10"></span>
                                                                 <span className="text-[10px] text-cf-on-muted uppercase font-black tracking-tighter">{tx.category}</span>
                                                             </div>
@@ -442,8 +442,8 @@ const Dashboard = () => {
                                             type="text" 
                                             placeholder="Capital Deployment"
                                             className="w-full bg-white/5 border border-white/10 p-4 sm:p-5 rounded-xl sm:rounded-2xl text-base sm:text-lg outline-none focus:border-cf-primary/50 transition-all text-white placeholder:text-white/10"
-                                            value={newExpense.description}
-                                            onChange={(e) => setNewExpense({...newExpense, description: e.target.value})}
+                                            value={newExpense.name}
+                                            onChange={(e) => setNewExpense({...newExpense, name: e.target.value})}
                                             required
                                         />
                                     </div>

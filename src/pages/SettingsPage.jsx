@@ -3,12 +3,16 @@ import { useFinance } from '../context/FinanceContext';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Bell, Shield, Save, Check } from 'lucide-react';
+import { User, Bell, Shield, Save, Check, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const SettingsPage = () => {
     const { userProfile, updateUserProfile } = useFinance();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [saveSuccess, setSaveSuccess] = useState(false);
+    const { logout } = useAuth();
+    const navigate = useNavigate();
 
     // Local draft state initialized from context
     const [draft, setDraft] = useState({
@@ -115,6 +119,29 @@ const SettingsPage = () => {
                                         className={`w-12 h-6 rounded-full transition-colors relative shrink-0 ${notifications ? 'bg-cf-primary' : 'bg-cf-surface-high'}`}
                                     >
                                         <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${notifications ? 'left-7' : 'left-1'}`} />
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Account Actions */}
+                        <section className="glass p-5 sm:p-8 rounded-2xl sm:rounded-[2rem]">
+                            <h3 className="font-display text-lg sm:text-xl font-bold text-cf-on-surface mb-4 sm:mb-6 flex items-center gap-2">
+                                <Shield className="text-cf-error" size={20} />
+                                Account Actions
+                            </h3>
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between p-3 sm:p-4 bg-cf-error/5 rounded-xl sm:rounded-2xl border border-cf-error/10 gap-4">
+                                    <div className="min-w-0">
+                                        <p className="text-cf-on-surface font-bold text-sm">Sign Out</p>
+                                        <p className="text-cf-on-muted text-xs truncate">End your current session and return to the login page.</p>
+                                    </div>
+                                    <button 
+                                        onClick={async () => { await logout(); navigate('/auth'); }}
+                                        className="px-4 py-2 bg-cf-error/10 text-cf-error border border-cf-error/20 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-cf-error/20 transition-colors shrink-0 min-h-[40px]"
+                                    >
+                                        <LogOut size={16} />
+                                        Logout
                                     </button>
                                 </div>
                             </div>

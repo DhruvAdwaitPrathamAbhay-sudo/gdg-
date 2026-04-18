@@ -93,7 +93,7 @@ export const FinanceProvider = ({ children }) => {
                 const budgetRes = await fetch('/api/budget', { headers });
                 if (budgetRes.ok) {
                     const budgetData = await budgetRes.json();
-                    if (budgetData.amount && budgetData.amount > 0) {
+                    if (budgetData.amount != null) {
                         setBudgetState(budgetData.amount);
                         saveToStorage('finance_budget', budgetData.amount);
                     }
